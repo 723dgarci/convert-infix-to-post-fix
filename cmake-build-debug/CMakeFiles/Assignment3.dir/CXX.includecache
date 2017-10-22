@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/Stack.h
+iostream
+-
+list
+-
+Stack.hpp
+C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/Stack.hpp
+
+C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/Stack.hpp
+Stack.h
+C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/Stack.h
+
+C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/main.cpp
+iostream
+-
+Stack.h
+C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/Stack.h
+vector
+-
+string
+-
+cctype
+-
+cstring
+-
+

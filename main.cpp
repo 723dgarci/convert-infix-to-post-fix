@@ -8,7 +8,7 @@ using namespace cop4530;
 using namespace std;
 
 
-Stack<string>& in2post(string v);
+Stack<string> in2post(string , bool&);
 
 int precede(char p);
 
@@ -70,27 +70,39 @@ int main () {
     */
     vector<string> file;
     string str;
-
-
+    string ch = "1f";
+    cout << "isalpha(ch[0]) :"<<isalpha(ch[0])<<'\n';
+    cout << "isalpha(ch[1]) :"<<isalpha(ch[1])<<'\n';
 
     while(getline(cin,str,'\n')){        //place each token into a vector
         file.push_back(str);
     }
 
     Stack<string> *post = new Stack<string>[file.size()];
+    bool *eval = new bool[file.size()];
     for(unsigned int i = 0;i < file.size();i++)
-        post[i] = in2post(file[i]);
-    cout <<"out of loop\n";
+        eval[i] = true;
+
+    for(unsigned int i = 0;i < file.size();i++)
+        post[i] = in2post(file[i],eval[i]);
+
+    cout <<"out of in2post\n";
     for(unsigned int i = 0;i < file.size();i++)
         cout <<post[i]<<'\n' ;
 
+
+
+    delete [] post;
+    delete [] eval;
+    post = nullptr;
+    eval = nullptr;
     std::cout << "\n\nEOP" << std::endl;
     return 0;
 }
 
-Stack<string>& in2post(string v) {
+Stack<string> in2post(string v, bool& e) {
     //cout << "befor declarations\n";
-    Stack<string> *post= new Stack<string>;
+    Stack<string> post;
     Stack<string> stk;
     string tok;
     unsigned int pos = 0;
@@ -112,7 +124,7 @@ Stack<string>& in2post(string v) {
         if (!isTor(tok[0])) {                 // if the first thing in the vector is and operator or parenthesis
             //cout << "print operand" << endl;
             //cout<<"STORE :" << tok << endl;
-            post->push(tok);
+            post.push(tok);
             //cout <<"test2\n";
         } else if (tok[0] == '+' || tok[0] == '-' || tok[0] == '*' || tok[0] == '/' || tok[0] == '(') {
             if (!stk.empty()) {                                                                                                 //if stk is not empty
@@ -120,7 +132,7 @@ Stack<string>& in2post(string v) {
                 while (!stk.empty() && stk.top()[0] != '(' && precede(stk.top()[0]) >= precede(tok[0])) {                       //if the precidence of the symbole on the stack is greater than the new one the print it (continue)
                     //cout << "in operator while print operator" << endl;
                     //cout<< "STORE :" << stk.top() << endl;
-                    post->push(stk.top());
+                    post.push(stk.top());
                     //cout << "in operator while pop stk" << endl;
                     stk.pop();
                 }
@@ -130,22 +142,22 @@ Stack<string>& in2post(string v) {
             if(v.size() ==0){                                       //if last input read in is an operator it is an error
                 //cout << "first catch\n";        //delete
                 //cout << "ERROR: last input was an operator\n";
-                post->clear();
-                post->push("ERROR: last input was an operator");
-                return *post;
+                post.clear();
+                post.push("ERROR: last input was an operator");
+                return post;
             }
         } else if (tok[0] == ')') {
             //cout << ") if statement \n" << post.top() << endl;
-            if (post->top()[0] == '+' || post->top()[0] == '-' || post->top()[0] == '*' || post->top()[0] == '/') {
+            if (post.top()[0] == '+' || post.top()[0] == '-' || post.top()[0] == '*' || post.top()[0] == '/') {
                 //cout << "ERROR: <operator> ) ";
-                post->clear();
-                post->push("ERROR: <operator> ) ");
-                return *post;
+                post.clear();
+                post.push("ERROR: <operator> ) ");
+                return post;
             } else {
                 while (stk.top()[0] != '(') {
                     //cout << ") while loop printo stk top" << endl;
                     //cout <<"STORE :" << stk.top() << endl;
-                    post->push(stk.top());
+                    post.push(stk.top());
                     stk.pop();
                 }
             }
@@ -162,14 +174,14 @@ Stack<string>& in2post(string v) {
             //cout << "stk.top() :"<< stk.top() << endl;
             //cout << "post b4:" << *post << '\n';
             if(stk.top()[0] != '(')                             //prevent parentheis from being in stack
-                post->push(stk.top());
+                post.push(stk.top());
             //cout << "STORE post after:"<< *post << '\n';
             stk.pop();
         }
         //cout << "\nend of last while loop\n";
     }
     //cout<<*post<<'\n';
-    return *post;
+    return post;
     //cout << "\nend of in2post()\n";
 
 } //////////////////////end of in2post

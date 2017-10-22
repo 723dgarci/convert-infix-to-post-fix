@@ -87,8 +87,10 @@ int main () {
         post[i] = in2post(file[i],eval[i]);
 
     cout <<"out of in2post\n";
-    for(unsigned int i = 0;i < file.size();i++)
-        cout <<post[i]<<'\n' ;
+    for(unsigned int i = 0;i < file.size();i++) {
+        cout << post[i] << "\t eval[i] :" << eval[i];
+        cout << '\n';
+    }
 
 
 
@@ -122,6 +124,8 @@ Stack<string> in2post(string v, bool& e) {
         //cout << "v after cut :"<< v;
         //cout << "\nv.size:"<<v.size() <<'\n';
         if (!isTor(tok[0])) {                 // if the first thing in the vector is and operator or parenthesis
+            if(isalpha(tok[0]))                 //if any of the first chars of the operands is an alpha then the equation is not evaluable
+                e = false;
             //cout << "print operand" << endl;
             //cout<<"STORE :" << tok << endl;
             post.push(tok);
@@ -144,6 +148,7 @@ Stack<string> in2post(string v, bool& e) {
                 //cout << "ERROR: last input was an operator\n";
                 post.clear();
                 post.push("ERROR: last input was an operator");
+                e = false;
                 return post;
             }
         } else if (tok[0] == ')') {
@@ -152,6 +157,7 @@ Stack<string> in2post(string v, bool& e) {
                 //cout << "ERROR: <operator> ) ";
                 post.clear();
                 post.push("ERROR: <operator> ) ");
+                e = false;
                 return post;
             } else {
                 while (stk.top()[0] != '(') {

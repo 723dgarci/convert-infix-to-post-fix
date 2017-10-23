@@ -7,13 +7,13 @@
 using namespace cop4530;
 using namespace std;
 
-
 Stack<string> in2post(string , bool&);
 
 int precede(char p);
 
 bool isTor(char o);
 
+double ansr(Stack<string>&);
 int main () {
     std::cout << "BOP\n" << std::endl;
     /*
@@ -70,34 +70,29 @@ int main () {
     */
     vector<string> file;
     string str;
-    string ch = "1f";
-    cout << "isalpha(ch[0]) :"<<isalpha(ch[0])<<'\n';
-    cout << "isalpha(ch[1]) :"<<isalpha(ch[1])<<'\n';
-
-    while(getline(cin,str,'\n')){        //place each token into a vector
-        file.push_back(str);
-    }
-
-    Stack<string> *post = new Stack<string>[file.size()];
-    bool *eval = new bool[file.size()];
-    for(unsigned int i = 0;i < file.size();i++)
-        eval[i] = true;
-
-    for(unsigned int i = 0;i < file.size();i++)
-        post[i] = in2post(file[i],eval[i]);
-
-    cout <<"out of in2post\n";
-    for(unsigned int i = 0;i < file.size();i++) {
-        cout << post[i] << "\t eval[i] :" << eval[i];
-        cout << '\n';
-    }
+    Stack<string> post;
+    bool eval = true;
 
 
+    do{
+        cout <<"Enter infix expression (\"exit\" to quit):";
+        getline(cin,str, '\n');
 
-    delete [] post;
-    delete [] eval;
-    post = nullptr;
-    eval = nullptr;
+        if(str != "exit") {
+            post = in2post(str, eval);
+
+            cout << "Postfix expression:" << post << "\teval:" << eval<< '\n';
+            if(eval){
+                post.rev();
+                cout <<" post rev(): "<< post<<'\n';
+                cout << ansr(post) << '\n';
+            }
+        }
+
+    }while(str != "exit");
+
+
+
     std::cout << "\n\nEOP" << std::endl;
     return 0;
 }
@@ -108,7 +103,8 @@ Stack<string> in2post(string v, bool& e) {
     Stack<string> stk;
     string tok;
     unsigned int pos = 0;
-    string del = " ";
+    string del = " ";                                   //used to seperate string coming in
+    //bool tor = false;
     //cout << "after declarations\n";
 
     //cout << "v : "<< v << ' ' << '\n';
@@ -192,6 +188,39 @@ Stack<string> in2post(string v, bool& e) {
 
 } //////////////////////end of in2post
 
+
+double ansr(Stack<string>& stk){
+
+    Stack<double> junk;
+    junk.push(stod(stk.top()));
+    stk.pop();
+    junk.push(stod(stk.top()));
+    stk.pop();
+
+    while(!stk.empty()){
+        if(!isTor(stk.top()[0])){           //if operand
+            junk.push(stod(stk.top()));
+        }
+        else{
+            double a =junk.top();
+            junk.pop();
+            double b =junk.top();
+            junk.pop();
+            if(stk.top() == "+")
+                junk.push(a+b);
+            else if(stk.top() == "+")
+                junk.push(a-b);
+            else if(stk.top() == "*")
+                junk.push(a*b);
+            else if (stk.top() == "/")
+                junk.push(a / b);
+        }
+        stk.pop();
+    }
+
+
+    return junk.top();
+}
 bool isTor(char o){
     return o == '-' || o == '+' || o == '/' || o == '*' || o == '(' ||o == ')';
 

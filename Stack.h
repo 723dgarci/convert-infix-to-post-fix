@@ -40,6 +40,7 @@ namespace cop4530 {
 
         int size() const;                       // returns the number of elements stored in the Stack.
 
+        void rev();
         // print elements of Stack to ostream os. ofc is the separator between elements in
         // the stack when they are printed out. Note that print() prints elements in the
         // opposite order of the Stack (that is, the oldest element should be printed first).

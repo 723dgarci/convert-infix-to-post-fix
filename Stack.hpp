@@ -36,7 +36,16 @@ void Stack<T,Con>::push(const T& x) {                               // adds  x  
     C.push_back(x);
 }
 
-
+template <typename T, class Con>
+void Stack<T,Con>::rev(){
+    if(!empty()){
+        auto i = C.begin();           //start iterator at beginning
+        while( i != C.end()) {        //while the end is not reached..
+            C.push_front(*i);         //add the first element to the front of the list
+            i = C.erase(i);           //remove the element at current position, and return the next element
+        }
+    }
+}
 template <typename T, class Con>
 void Stack<T,Con>::push(T && x){
     C.push_back(x);

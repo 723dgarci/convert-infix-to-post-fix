@@ -14,6 +14,8 @@ int precede(char p);
 bool isTor(char o);
 
 double ansr(Stack<string>&);
+
+vector<string> subS(string &s, const string& del = " ");
 int main () {
     std::cout << "BOP\n" << std::endl;
     /*
@@ -68,10 +70,10 @@ int main () {
     else
         cout << "ERROR: wrong comparision" << endl;
     */
-    vector<string> file;
     string str;
     Stack<string> post;
-    bool eval = true;
+    vector<string> subs;
+    //bool eval = true;
 
 
     do{
@@ -79,14 +81,21 @@ int main () {
         getline(cin,str, '\n');
 
         if(str != "exit") {
+            subs = subS(str);
+            for(auto &x: subs)
+                cout<< x<<' ';
+            cout <<'\n';
+            /*
             post = in2post(str, eval);
 
             cout << "Postfix expression:" << post << "\teval:" << eval<< '\n';
             if(eval){
-                post.rev();
-                cout <<" post rev(): "<< post<<'\n';
-                cout << ansr(post) << '\n';
+                cout <<"Postfix evaluation: "<< post<<" = "<< ansr(post) << '\n';
             }
+            else{
+                cout <<"Postfix evaluation: "<< post<<" = "<<post<<'\n';
+            }
+             */
         }
 
     }while(str != "exit");
@@ -95,6 +104,21 @@ int main () {
 
     std::cout << "\n\nEOP" << std::endl;
     return 0;
+}/////////end of main()
+
+vector<string> subS(string &s, const string& del){
+    vector<string> sub;
+    string tok;
+    unsigned int pos;
+    while(!s.empty()){
+        pos = s.find(del);
+        tok = s.substr(0,pos);
+        if(tok[tok.size()-1]=='\r')                     //takes care of strings with carriage return
+            tok =tok.substr(0,tok.size()-1);
+        s.erase(0,pos + del.length());
+        sub.push_back(tok);
+    }
+    return sub;
 }
 
 Stack<string> in2post(string v, bool& e) {
@@ -186,36 +210,47 @@ Stack<string> in2post(string v, bool& e) {
     return post;
     //cout << "\nend of in2post()\n";
 
-} //////////////////////end of in2post
-
+} ////////////end of in2post()
 
 double ansr(Stack<string>& stk){
-
-    Stack<double> junk;
-    junk.push(stod(stk.top()));
+    stk.rev();                             // reverse order os stack for the sake of the equation
+    Stack<double> junk;                    // temp stack
+    junk.push(stod(stk.top()));             //push  the first 2 elements of argument to junk
     stk.pop();
     junk.push(stod(stk.top()));
     stk.pop();
+    //int i = 0;  //delete
 
-    while(!stk.empty()){
+    while(!stk.empty()){                    //go through each element of argument
         if(!isTor(stk.top()[0])){           //if operand
-            junk.push(stod(stk.top()));
+            junk.push(stod(stk.top()));     //push it to the temp stack (convert string to double)
         }
-        else{
-            double a =junk.top();
+        else{                               //else evaluate last 2 operands on stack
+            double r =junk.top();
             junk.pop();
-            double b =junk.top();
+            double l =junk.top();
             junk.pop();
-            if(stk.top() == "+")
-                junk.push(a+b);
-            else if(stk.top() == "+")
-                junk.push(a-b);
-            else if(stk.top() == "*")
-                junk.push(a*b);
-            else if (stk.top() == "/")
-                junk.push(a / b);
+            if(stk.top() == "+") {
+                junk.push(l + r);           //push result to top of junk stack
+                //cout << i <<':'<< l << '+'<<r<<" junk.top() :"<<junk.top()<<'\n';
+            }
+            else if(stk.top() == "-") {
+                junk.push(l - r);
+                //cout << i <<':'<< l << '-'<<r<<" junk.top() :"<<junk.top()<<'\n';
+            }
+            else if(stk.top() == "*") {
+                junk.push(l * r);
+                //cout << i <<':'<< l << '*'<<r<<" junk.top() :"<<junk.top()<<'\n';
+            }
+            else if (stk.top() == "/") {
+                junk.push(l / r);
+                //cout << i <<':'<< l << '/'<< r <<" junk.top() :"<<junk.top()<<'\n';
+            }
+            //i++;        //delete
         }
-        stk.pop();
+        //cout <<"junk :"<<junk<<'\n';
+        stk.pop();      //used to increment to next element in stack
+
     }
 
 
@@ -235,3 +270,5 @@ int precede(char p){
     else                //error case
         return 0;
 }
+
+

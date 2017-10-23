@@ -13,6 +13,8 @@ int precede(char p);
 
 bool isTor(char o);
 
+bool parChk(const string &s);
+
 double ansr(Stack<string>&);
 
 vector<string> subS(string &s, const string& del = " ");
@@ -72,8 +74,7 @@ int main () {
     */
     string str;
     Stack<string> post;
-    vector<string> subs;
-    //bool eval = true;
+    bool eval = true;
 
 
     do{
@@ -81,21 +82,18 @@ int main () {
         getline(cin,str, '\n');
 
         if(str != "exit") {
-            subs = subS(str);
-            for(auto &x: subs)
-                cout<< x<<' ';
-            cout <<'\n';
-            /*
+
+
             post = in2post(str, eval);
 
-            cout << "Postfix expression:" << post << "\teval:" << eval<< '\n';
+            cout << "Postfix expression:" << post << '\n';
             if(eval){
                 cout <<"Postfix evaluation: "<< post<<" = "<< ansr(post) << '\n';
             }
             else{
                 cout <<"Postfix evaluation: "<< post<<" = "<<post<<'\n';
             }
-             */
+
         }
 
     }while(str != "exit");
@@ -105,6 +103,17 @@ int main () {
     std::cout << "\n\nEOP" << std::endl;
     return 0;
 }/////////end of main()
+
+bool parChk(const string &s){
+    int o = 0, c = 0;
+    for(auto &ch: s){
+        if( ch == '(')
+            o++;
+        else if(ch == ')')
+            c++;
+    }
+    return o == c;
+}
 
 vector<string> subS(string &s, const string& del){
     vector<string> sub;
@@ -125,32 +134,29 @@ Stack<string> in2post(string v, bool& e) {
     //cout << "befor declarations\n";
     Stack<string> post;
     Stack<string> stk;
-    string tok;
-    unsigned int pos = 0;
-    string del = " ";                                   //used to seperate string coming in
+    vector<string> sub= subS(v);
     //bool tor = false;
     //cout << "after declarations\n";
-
     //cout << "v : "<< v << ' ' << '\n';
+    if(!parChk(v)){
+        post.push("Error: Infix expression: "+ v +" has mismatched parens!");
+        return post;
+    }
 
-    while ( v.size() != 0) {                            //splits string into substrings until size == 2 bc a string must have the last the null terminator
+    for(auto &tok: sub) {                            //splits string into substrings until size == 2 bc a string must have the last the null terminator
         //cout <<"GOING THROUGH WHILE\n";
-        pos = v.find(del);                              //find position of deliminator of v
-        tok = v.substr(0, pos);                         //make a token
-        if(tok[tok.size()-1]=='\r')                     //takes care of strings with carriage return
-            tok =tok.substr(0,tok.size()-1);
         //cout <<"tok :"<< tok << endl;
-        v.erase(0,pos + del.length());                              //update the string being passed in
         //cout << "v after cut :"<< v;
         //cout << "\nv.size:"<<v.size() <<'\n';
         if (!isTor(tok[0])) {                 // if the first thing in the vector is and operator or parenthesis
-            if(isalpha(tok[0]))                 //if any of the first chars of the operands is an alpha then the equation is not evaluable
+            if(isalpha(tok[0])) {                  //if any of the first chars of the operands is an alpha then the equation is not evaluable
                 e = false;
+            }
             //cout << "print operand" << endl;
             //cout<<"STORE :" << tok << endl;
             post.push(tok);
             //cout <<"test2\n";
-        } else if (tok[0] == '+' || tok[0] == '-' || tok[0] == '*' || tok[0] == '/' || tok[0] == '(') {
+        } else if (tok == "+" || tok == "-" || tok == "*" || tok == "/"|| tok == "(") {                                         //if the string is a an operator or paranthesis
             if (!stk.empty()) {                                                                                                 //if stk is not empty
                 //cout << "testing while " << (stk.top()[0] != '(') << ' ' << stk.top()[0] << " >= " << tok[0] << endl;
                 while (!stk.empty() && stk.top()[0] != '(' && precede(stk.top()[0]) >= precede(tok[0])) {                       //if the precidence of the symbole on the stack is greater than the new one the print it (continue)
@@ -163,7 +169,7 @@ Stack<string> in2post(string v, bool& e) {
             }
             //cout << "push operator\t"<< "tok :"<< tok << endl;
             stk.push(tok);
-            if(v.size() ==0){                                       //if last input read in is an operator it is an error
+            if(sub.size() == 0){                                       //if last input read in is an operator it is an error
                 //cout << "first catch\n";        //delete
                 //cout << "ERROR: last input was an operator\n";
                 post.clear();
@@ -173,7 +179,7 @@ Stack<string> in2post(string v, bool& e) {
             }
         } else if (tok[0] == ')') {
             //cout << ") if statement \n" << post.top() << endl;
-            if (post.top()[0] == '+' || post.top()[0] == '-' || post.top()[0] == '*' || post.top()[0] == '/') {
+            if (post.top() == "+" || post.top() == "-"|| post.top() == "*"|| post.top() == "/") {
                 //cout << "ERROR: <operator> ) ";
                 post.clear();
                 post.push("ERROR: <operator> ) ");

@@ -48,7 +48,7 @@ void Stack<T,Con>::rev(){
 }
 template <typename T, class Con>
 void Stack<T,Con>::push(T && x){
-    C.push_back(x);
+    C.push_back(std::move(x));
 }                   // adds x to the Stack. move version.
 
 template <typename T, class Con>

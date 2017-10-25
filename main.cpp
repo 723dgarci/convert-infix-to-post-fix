@@ -7,83 +7,28 @@
 using namespace cop4530;
 using namespace std;
 
-Stack<string> in2post(string , bool&);
-int precede(char p);
-bool isTor(char o);
-bool parChk(string& s);
-void ansr(Stack<string>&);
-vector<string> subS(string &s, const string& del = " ");
+Stack<string> in2post(const string &, bool&);                  //converts infix string equation into a post fix stack (error handleing is taken care of here)
+int precede(char p);                                    //returns value of precedence for char
+bool isTor(char o);                                     //returns true if char is = {+,-,*,/,(,)}
+bool asmd(const string &);                              //returns true if string is = {+,-,*,/}
+
+void ansr(Stack<string>&);                              //evaluates post fix string
+int opChk(const vector<string> & v);                    //checks if there is an operator next another operator or an operand next another operand
+vector<string> subS(string s, const string& del = " ");//returns vector of sub-strings of string with del as the deliminators
+
 int main () {
-    std::cout << "BOP\n" << std::endl;
-    /*
-    Stack<int> intstk;
-
-    cout << "inserting 10 elements" << endl;
-    for (unsigned int i = 0; i < 10; ++i)
-        intstk.push(i);
-
-    cout << "Size: " << intstk.size() << endl;
-
-    cout << "elements: " << intstk << endl;
-
-    cout << "emptying the stack" << endl;
-    while (!intstk.empty()) {
-        cout << intstk.top() << " ";
-        intstk.pop();
-    }
-    cout << endl;
-
-    cout << "Size: " << intstk.size() << endl;
-
-    cout << "inserting 10 elements" << endl;
-
-    for (unsigned int i = 0; i < 10; ++i)
-        intstk.push(i);
-
-    Stack<int> intstk1(intstk);
-    Stack<int> intstk2;
-    intstk2 = intstk;
-
-    //     cout << intstk << endl;
-         cout << intstk1 << endl;
-         cout << intstk2 << endl;
-
-    if (intstk1 == intstk2)
-        cout << "Equal stacks" << endl;
-    else
-        cout << "ERROR: stacks are not equal" << endl;
-
-    intstk1.pop();
-    cout << intstk1 << endl;
-    cout << intstk2 << endl;
-
-    if (intstk1 == intstk2)
-        cout << "Error: equal stacks" << endl;
-    else
-        cout << "Stacks are not equal" << endl;
-
-    if (intstk1 <= intstk2)
-        cout << "intstk1 is less than or equal to intstk2" << endl;
-    else
-        cout << "ERROR: wrong comparision" << endl;
-    */
-    string str;
-    Stack<string> post;
-    bool eval = true;
-
+    string str;                             // holds incoming string
+    Stack<string> post;                     //holds post fix version of equation
+    bool eval;                              //used to check if equation is evaluable
 
     do{
+        eval = true;
         cout <<"Enter infix expression (\"exit\" to quit):";
         getline(cin,str, '\n');
-
         if(str != "exit") {
-
-
             post = in2post(str, eval);
-
-            //cout << post.top().find("Error")<<endl;
-            if( post.top().find("Error") != 0) {                                            //if error is not found
-                cout << "Postfix expression:" << post << "eval: "<< eval<< '\n';
+            if( post.top().find("Error") != 0) {            //if it is not an error                                         //if error is not found
+                cout << "Postfix expression:" << post << '\n';
                 if (eval) {
                     cout << "Postfix evaluation: " << post << " = " ;
                     ansr(post);
@@ -95,35 +40,19 @@ int main () {
             else{
                 cout << post<<'\n';
             }
-
         }
-
     }while(str != "exit");
 
-
-
-    std::cout << "\n\nEOP" << std::endl;
     return 0;
 }/////////end of main()
 
-bool parChk(string &s){
-    Stack<char> o;
-    for(unsigned int i =0;i < s.size();i++){
-        if( s[i] == '(') {
-            o.push('(');
-        } else if(s[i]== ')'&& !o.empty()) {
-            o.pop();
-        }
-        else if ( s[i] == ')'){
-            o.push(')');
-        }
-    }
-    cout << "\no in the end:"<< o<<'\n';
-    return o.empty();
 
-}
 
-vector<string> subS(string &s, const string& del){
+bool asmd(const string &s){
+    return s == "+"|| s == "-"||s == "/"|| s == "*";
+ }
+
+vector<string> subS(string s, const string& del){
     vector<string> sub;
     string tok;
     unsigned int pos;
@@ -138,130 +67,124 @@ vector<string> subS(string &s, const string& del){
     return sub;
 }
 
-Stack<string> in2post(string v, bool& e) {
-    //cout << "befor declarations\n";
+int opChk(const vector<string> & v){
+    Stack<string> chk;                      //good case - only contains operators and has size == 1 in the end
+    Stack<string> o;
+    for(auto &x: v){
+        //cout << "in opChk() x : "<< x<<'\n';
+        if(!chk.empty()) {                                          //if chk is not on the first element on the stack
+            if (asmd(x) && (asmd(chk.top()))) {                     //if operator and operator are nex to each other
+                return 1;
+            } else if (!isTor(x[0]) && !isTor(chk.top()[0])) {      //if operand and operand are next to each other
+                return 2;
+            }else if( asmd(x) && chk.top() == "("){                 // if there is '(' <operand>
+                return 1;
+            }else if(x == ")" && asmd(chk.top())){                  //if there is <operand> ')'
+                return 1;
+            }else if( x == "(" && !isTor(chk.top()[0])){            //if there is <operator> '('
+                return 2;
+            }else if( !isTor(x[0]) && chk.top() ==")"){             //if there is ')' <operator>
+                return 2;
+            }
+        }
+        chk.push(x);
+        if(x == "(" ) {                     // chk '(' and ')' are proper
+            //cout << "pushing ( onto o\n";
+            o.push("(");
+        } else if(x == ")"&& !o.empty()){
+            o.pop();
+        }else if ( x == ")"){
+            o.push(")");
+        }
+        //cout << "o : "<< o<<'\n';
+        //cout << "chk: "<< chk<<'\n';
+    }
+    if(!o.empty()) {
+        return 3;
+    }
+    return 4;
+
+
+}
+
+Stack<string> in2post(const string &v, bool& e) {
     Stack<string> post;
     Stack<string> stk;
-    //bool tor = false;
-    //cout << "after declarations\n";
-    //cout << "v : "<< v << ' ' << '\n';
-    if(!parChk(v)){
+    /*
+    if(!parChk(v)){                                                         //exception handling : { ) 2 + 1 ( }
         post.push("Error: Infix expression: "+ v +" has mismatched parens!");
-        cout << "passing false0\n";
-        e = false;
         return post;
     }
-    if( isTor(v[0]) && v[0] != '('){
-        post.push("Error: Missing operands in the expression");
-        cout << "passing false1\n";
-        e = false;
+     */
+    vector<string> sub= subS(v);                                        // get vecotr of substrings
+    if( asmd(sub[0]) || asmd(sub[sub.size()-1])){                       //takes care of exceptions like: + a + b and a + b +
+        post.push("Error: Missing operand in the expression");
         return post;
     }
 
-    vector<string> sub= subS(v);                     // get vecotr of substrings
+    int temp = opChk(sub);                                            //call checking funciton
+    if(temp == 1){
+        post.push("Error: Missing operand in the expression");
+        return post;
+    }else if(temp == 2){
+        post.push("Error: Missing operator in the expression");
+        return post;
+    }else if(temp == 3){
+        post.push("Error: Infix expression: "+ v +" has mismatched parens!");
+        return post;
+    }
+
+
     for(auto &tok: sub) {                            //splits string into substrings until size == 2 bc a string must have the last the null terminator
-        //cout <<"GOING THROUGH WHILE\n";
-        //cout <<"tok :"<< tok << endl;
-        //cout << "v after cut :"<< v;
-        //cout << "\nv.size:"<<v.size() <<'\n';
-        if (!isTor(tok[0])) {                 // if the first thing in the vector is and operator or parenthesis
-            if(isalpha(tok[0])) {                  //if any of the first chars of the operands is an alpha then the equation is not evaluable
-                cout << "passing false2\n";
+        if (!isTor(tok[0])) {                        // if the first thing in the vector is and operator or parenthesis
+            if(isalpha(tok[0])) {                    //if any of the first chars of the operands is an alpha then the equation is not evaluable
                 e = false;
             }
-            //Error: Missing operators in the expression
-
-            //cout << "print operand" << endl;
-            //cout<<"STORE :" << tok << endl;
             post.push(tok);
-            //cout <<"test2\n";
         } else if (tok == "+" || tok == "-" || tok == "*" || tok == "/"|| tok == "(") {                                         //if the string is a an operator or paranthesis
-            //Error: Missing operands in the expression
-
-
             if (!stk.empty()) {                                                                                                 //if stk is not empty
-                //cout << "testing while " << (stk.top()[0] != '(') << ' ' << stk.top()[0] << " >= " << tok[0] << endl;
                 while (!stk.empty() && stk.top()[0] != '(' && precede(stk.top()[0]) >= precede(tok[0])) {                       //if the precidence of the symbole on the stack is greater than the new one the print it (continue)
-                    //cout << "in operator while print operator" << endl;
-                    //cout<< "STORE :" << stk.top() << endl;
                     post.push(stk.top());
-                    //cout << "in operator while pop stk" << endl;
                     stk.pop();
                 }
             }
-            //cout << "push operator\t"<< "tok :"<< tok << endl;
             stk.push(tok);              //push operator
-            if(sub.size() == 0){                                       //if last input read in is an operator it is an error
-                //cout << "first catch\n";        //delete
-                //cout << "ERROR: last input was an operator\n";
-                post.clear();
-                post.push("ERROR: last input was an operator");
-                cout << "passing false3\n";
-                e = false;
-                return post;
-            }
+
         } else if (tok[0] == ')') {
-            //cout << ") if statement \n" << post.top() << endl;
-            if (post.top() == "+" || post.top() == "-"|| post.top() == "*"|| post.top() == "/") {
-                //cout << "ERROR: <operator> ) ";
-                post.clear();
-                post.push("ERROR: <operator> ) ");
-                cout << "passing false4\n";
-                e = false;
-                return post;
-            } else {
-                while (stk.top()[0] != '(') {
-                    //cout << ") while loop printo stk top" << endl;
-                    //cout <<"STORE :" << stk.top() << endl;
+            while (stk.top()[0] != '(') {
                     post.push(stk.top());
                     stk.pop();
-                }
             }
         }
-
-        //cout <<"post at end of while :"<<post<<'\n';
     } /////////////////end of while
 
-    //cout << "end of for loop" << endl;
     if(!stk.empty()) {
         while (!stk.empty() ) {
-            //cout << "in last while loop " << endl;
-            //cout << "content os stk: "<< stk<<'\n';
-            //cout << "stk.top() :"<< stk.top() << endl;
-            //cout << "post b4:" << *post << '\n';
             if(stk.top()[0] != '(')                             //prevent parentheis from being in stack
                 post.push(stk.top());
-            //cout << "STORE post after:"<< *post << '\n';
             stk.pop();
         }
-        //cout << "\nend of last while loop\n";
     }
-    //cout<<*post<<'\n';
     return post;
-    //cout << "\nend of in2post()\n";
-
 } ////////////end of in2post()
 
 void ansr(Stack<string>& stk){
     stk.rev();                             // reverse order os stack for the sake of the equation
     Stack<double> junk;                    // temp stack
-    cout << "1st value in junk: " << stk.top() << '\n';
     if(isdigit(stk.top()[0])) {
         junk.push(stod(stk.top()));             //push  the first 2 elements of argument to junk
     }else{
-        cout << "error operand was not found\n";
+        cout << "0\n";
+        return;
     }
     stk.pop();
-    cout <<"2nd value in junk: " << stk.top()<<'\n';
     if(isdigit(stk.top()[0])){
         junk.push(stod(stk.top()));
     }else{
-        cout << "error operand was not found\n";
+        cout << "0\n";
+        return;
     }
-
     stk.pop();
-    //int i = 0;  //delete
-    cout <<" before while\n";
     while(!stk.empty()){                    //go through each element of argument
         if(!isTor(stk.top()[0])){           //if operand
             junk.push(stod(stk.top()));     //push it to the temp stack (convert string to double)
@@ -273,36 +196,29 @@ void ansr(Stack<string>& stk){
             junk.pop();
             if(stk.top() == "+") {
                 junk.push(l + r);           //push result to top of junk stack
-                //cout << i <<':'<< l << '+'<<r<<" junk.top() :"<<junk.top()<<'\n';
             }
             else if(stk.top() == "-") {
                 junk.push(l - r);
-                //cout << i <<':'<< l << '-'<<r<<" junk.top() :"<<junk.top()<<'\n';
             }
             else if(stk.top() == "*") {
                 junk.push(l * r);
-                //cout << i <<':'<< l << '*'<<r<<" junk.top() :"<<junk.top()<<'\n';
             }
             else if (stk.top() == "/") {
                 junk.push(l / r);
-                //cout << i <<':'<< l << '/'<< r <<" junk.top() :"<<junk.top()<<'\n';
-            }else{
-                cout << "error: no operator found\n";
-                break;
             }
-            //i++;        //delete
         }
-        //cout <<"junk :"<<junk<<'\n';
         stk.pop();      //used to increment to next element in stack
 
     }
-    cout << "stk :"<< stk << '\n';
-    cout << "junk.top() :"<< junk.top()<< '\n';
-}
+
+    cout << junk.top()<< '\n';
+}   ////// end of ansr()
+
 bool isTor(char o){
     return o == '-' || o == '+' || o == '/' || o == '*' || o == '(' ||o == ')';
 
 }
+
 int precede(char p){
     if(p == '(' ||p == ')' )
         return 3;
@@ -313,5 +229,3 @@ int precede(char p){
     else                //error case
         return 0;
 }
-
-

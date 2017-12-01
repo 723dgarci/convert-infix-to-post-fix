@@ -56,38 +56,38 @@ include CMakeFiles/Assignment3.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/Assignment3.dir/flags.make
 
-CMakeFiles/Assignment3.dir/main.cpp.obj: CMakeFiles/Assignment3.dir/flags.make
-CMakeFiles/Assignment3.dir/main.cpp.obj: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\WorkD\CLionProjects\untitled\DSA\Assignment3\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Assignment3.dir/main.cpp.obj"
-	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Assignment3.dir\main.cpp.obj -c C:\Users\WorkD\CLionProjects\untitled\DSA\Assignment3\main.cpp
+CMakeFiles/Assignment3.dir/in2post.cpp.obj: CMakeFiles/Assignment3.dir/flags.make
+CMakeFiles/Assignment3.dir/in2post.cpp.obj: ../in2post.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\WorkD\CLionProjects\untitled\DSA\Assignment3\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Assignment3.dir/in2post.cpp.obj"
+	C:\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Assignment3.dir\in2post.cpp.obj -c C:\Users\WorkD\CLionProjects\untitled\DSA\Assignment3\in2post.cpp
 
-CMakeFiles/Assignment3.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Assignment3.dir/main.cpp.i"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\WorkD\CLionProjects\untitled\DSA\Assignment3\main.cpp > CMakeFiles\Assignment3.dir\main.cpp.i
+CMakeFiles/Assignment3.dir/in2post.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Assignment3.dir/in2post.cpp.i"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\WorkD\CLionProjects\untitled\DSA\Assignment3\in2post.cpp > CMakeFiles\Assignment3.dir\in2post.cpp.i
 
-CMakeFiles/Assignment3.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Assignment3.dir/main.cpp.s"
-	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\WorkD\CLionProjects\untitled\DSA\Assignment3\main.cpp -o CMakeFiles\Assignment3.dir\main.cpp.s
+CMakeFiles/Assignment3.dir/in2post.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Assignment3.dir/in2post.cpp.s"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\WorkD\CLionProjects\untitled\DSA\Assignment3\in2post.cpp -o CMakeFiles\Assignment3.dir\in2post.cpp.s
 
-CMakeFiles/Assignment3.dir/main.cpp.obj.requires:
+CMakeFiles/Assignment3.dir/in2post.cpp.obj.requires:
 
-.PHONY : CMakeFiles/Assignment3.dir/main.cpp.obj.requires
+.PHONY : CMakeFiles/Assignment3.dir/in2post.cpp.obj.requires
 
-CMakeFiles/Assignment3.dir/main.cpp.obj.provides: CMakeFiles/Assignment3.dir/main.cpp.obj.requires
-	$(MAKE) -f CMakeFiles\Assignment3.dir\build.make CMakeFiles/Assignment3.dir/main.cpp.obj.provides.build
-.PHONY : CMakeFiles/Assignment3.dir/main.cpp.obj.provides
+CMakeFiles/Assignment3.dir/in2post.cpp.obj.provides: CMakeFiles/Assignment3.dir/in2post.cpp.obj.requires
+	$(MAKE) -f CMakeFiles\Assignment3.dir\build.make CMakeFiles/Assignment3.dir/in2post.cpp.obj.provides.build
+.PHONY : CMakeFiles/Assignment3.dir/in2post.cpp.obj.provides
 
-CMakeFiles/Assignment3.dir/main.cpp.obj.provides.build: CMakeFiles/Assignment3.dir/main.cpp.obj
+CMakeFiles/Assignment3.dir/in2post.cpp.obj.provides.build: CMakeFiles/Assignment3.dir/in2post.cpp.obj
 
 
 # Object files for target Assignment3
 Assignment3_OBJECTS = \
-"CMakeFiles/Assignment3.dir/main.cpp.obj"
+"CMakeFiles/Assignment3.dir/in2post.cpp.obj"
 
 # External object files for target Assignment3
 Assignment3_EXTERNAL_OBJECTS =
 
-Assignment3.exe: CMakeFiles/Assignment3.dir/main.cpp.obj
+Assignment3.exe: CMakeFiles/Assignment3.dir/in2post.cpp.obj
 Assignment3.exe: CMakeFiles/Assignment3.dir/build.make
 Assignment3.exe: CMakeFiles/Assignment3.dir/linklibs.rsp
 Assignment3.exe: CMakeFiles/Assignment3.dir/objects1.rsp
@@ -100,7 +100,7 @@ CMakeFiles/Assignment3.dir/build: Assignment3.exe
 
 .PHONY : CMakeFiles/Assignment3.dir/build
 
-CMakeFiles/Assignment3.dir/requires: CMakeFiles/Assignment3.dir/main.cpp.obj.requires
+CMakeFiles/Assignment3.dir/requires: CMakeFiles/Assignment3.dir/in2post.cpp.obj.requires
 
 .PHONY : CMakeFiles/Assignment3.dir/requires
 

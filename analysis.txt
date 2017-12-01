@@ -1,0 +1,4 @@
+I used a list as my adaptee class, and as a result used
+its clear() function. Per the cplusplus documentation
+the complexity is linear.
+http://www.cplusplus.com/reference/list/list/clear/

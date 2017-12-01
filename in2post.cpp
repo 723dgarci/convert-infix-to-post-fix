@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Stack.h"
+#include "stack.h"
 #include <vector>
 #include <string>
 #include <cctype>
@@ -17,6 +17,14 @@ int opChk(const vector<string> & v);                    //checks if there is an 
 vector<string> subS(string s, const string& del = " ");//returns vector of sub-strings of string with del as the deliminators
 
 int main () {
+    /*Stack<int> a;
+    a.push(4);
+    a.push(3);
+    a.push(9);
+    Stack<int> b = std::move(a);
+    cout << "a : "<< a<<'\n';
+    cout << "b : "<< b<<'\n';
+    */
     string str;                             // holds incoming string
     Stack<string> post;                     //holds post fix version of equation
     bool eval;                              //used to check if equation is evaluable
@@ -24,11 +32,11 @@ int main () {
     do{
         eval = true;
         cout <<"Enter infix expression (\"exit\" to quit):";
-        getline(cin,str, '\n');
+        getline(cin ,str, '\n');
         if(str != "exit") {
             post = in2post(str, eval);
             if( post.top().find("Error") != 0) {            //if it is not an error                                         //if error is not found
-                cout << "Postfix expression:" << post << '\n';
+                cout << "\nPostfix expression:" << post << '\n';
                 if (eval) {
                     cout << "Postfix evaluation: " << post << " = " ;
                     ansr(post);
@@ -38,8 +46,11 @@ int main () {
                 }
             }
             else{
-                cout << post<<'\n';
+                cout <<'\n'<< post<<'\n';
             }
+        }
+        if(cin.fail()){
+            cout << endl;
         }
     }while(str != "exit");
 
@@ -210,7 +221,6 @@ void ansr(Stack<string>& stk){
         stk.pop();      //used to increment to next element in stack
 
     }
-
     cout << junk.top()<< '\n';
 }   ////// end of ansr()
 

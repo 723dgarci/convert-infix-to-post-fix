@@ -1,4 +1,4 @@
-#include "Stack.h"
+#include "stack.h"
 using namespace cop4530;
 template <typename T, class Con >
 Stack<T,Con>::Stack(): C(0){}                                               //  zero argument constructor
@@ -22,7 +22,7 @@ Stack<T,Con> & Stack<T,Con>::operator= (const Stack <T,Con>& l) {    // copy ass
 }
  template <typename T, class Con>
 Stack<T,Con> & Stack<T,Con>::operator=(Stack<T,Con> && r) {         // move assignment operator=
-     C = r.C;
+     C = std::move(r.C);
      return *this;
  }
 template <typename T, class Con>

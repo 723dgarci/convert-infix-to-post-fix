@@ -122,32 +122,32 @@ Assignment3/fast:
 	$(MAKE) -f CMakeFiles\Assignment3.dir\build.make CMakeFiles/Assignment3.dir/build
 .PHONY : Assignment3/fast
 
-main.obj: main.cpp.obj
+in2post.obj: in2post.cpp.obj
 
-.PHONY : main.obj
+.PHONY : in2post.obj
 
 # target to build an object file
-main.cpp.obj:
-	$(MAKE) -f CMakeFiles\Assignment3.dir\build.make CMakeFiles/Assignment3.dir/main.cpp.obj
-.PHONY : main.cpp.obj
+in2post.cpp.obj:
+	$(MAKE) -f CMakeFiles\Assignment3.dir\build.make CMakeFiles/Assignment3.dir/in2post.cpp.obj
+.PHONY : in2post.cpp.obj
 
-main.i: main.cpp.i
+in2post.i: in2post.cpp.i
 
-.PHONY : main.i
+.PHONY : in2post.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles\Assignment3.dir\build.make CMakeFiles/Assignment3.dir/main.cpp.i
-.PHONY : main.cpp.i
+in2post.cpp.i:
+	$(MAKE) -f CMakeFiles\Assignment3.dir\build.make CMakeFiles/Assignment3.dir/in2post.cpp.i
+.PHONY : in2post.cpp.i
 
-main.s: main.cpp.s
+in2post.s: in2post.cpp.s
 
-.PHONY : main.s
+.PHONY : in2post.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles\Assignment3.dir\build.make CMakeFiles/Assignment3.dir/main.cpp.s
-.PHONY : main.cpp.s
+in2post.cpp.s:
+	$(MAKE) -f CMakeFiles\Assignment3.dir\build.make CMakeFiles/Assignment3.dir/in2post.cpp.s
+.PHONY : in2post.cpp.s
 
 # Help Target
 help:
@@ -158,9 +158,9 @@ help:
 	@echo ... Assignment3
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
+	@echo ... in2post.obj
+	@echo ... in2post.i
+	@echo ... in2post.s
 .PHONY : help
 
 

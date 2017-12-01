@@ -3,5 +3,5 @@ project(Assignment3)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp Stack.h Stack.hpp)
+set(SOURCE_FILES in2post.cpp Stack.h Stack.hpp)
 add_executable(Assignment3 ${SOURCE_FILES})

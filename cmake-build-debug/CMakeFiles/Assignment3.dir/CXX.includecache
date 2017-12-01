@@ -6,23 +6,11 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/Stack.h
+C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/in2post.cpp
 iostream
 -
-list
--
-Stack.hpp
-C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/Stack.hpp
-
-C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/Stack.hpp
-Stack.h
-C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/Stack.h
-
-C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/main.cpp
-iostream
--
-Stack.h
-C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/Stack.h
+stack.h
+C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/stack.h
 vector
 -
 string
@@ -31,4 +19,16 @@ cctype
 -
 cstring
 -
+
+C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/stack.h
+iostream
+-
+list
+-
+stack.hpp
+C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/stack.hpp
+
+C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/stack.hpp
+stack.h
+C:/Users/WorkD/CLionProjects/untitled/DSA/Assignment3/stack.h
 

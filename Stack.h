@@ -67,7 +67,7 @@ namespace cop4530 {
         template<typename T, class Con = std::list<T>>
         bool operator<= (const Stack<T,Con>& a, const Stack <T,Con>& b);
 
-#include "Stack.hpp"
+#include "stack.hpp"
 }//end of namespace
 
 #endif //ASSIGNMENT3_STACK_H

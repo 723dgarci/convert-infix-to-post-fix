@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Assignment3.dir/main.cpp.obj"
+  "CMakeFiles/Assignment3.dir/in2post.cpp.obj"
   "Assignment3.pdb"
   "Assignment3.exe"
   "Assignment3.exe.manifest"
